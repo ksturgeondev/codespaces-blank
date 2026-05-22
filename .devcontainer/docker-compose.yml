@@ -24,6 +24,6 @@ services:
       PMA_USER: student
       PMA_PASSWORD: student
     ports:
-      - "8081:80"
+      - "8082:80"
     depends_on:
       - mariadb
