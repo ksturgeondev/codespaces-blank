@@ -1,0 +1,31 @@
+services:
+app:
+  build:
+    context: .
+    dockerfile: Dockerfile
+  volumes:
+    - ..:/workspaces/${localWorkspaceFolderBasename}:cached
+  command: sleep infinity
+  ports:
+    - "8080:8080"
+
+  mariadb:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: student_db
+      MYSQL_USER: student
+      MYSQL_PASSWORD: student
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: student
+      PMA_PASSWORD: student
+    ports:
+      - "8081:80"
+    depends_on:
+      - mariadb
